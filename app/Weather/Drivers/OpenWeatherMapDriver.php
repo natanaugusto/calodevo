@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Services\Weather;
+namespace App\Weather\Drivers;
 
+use App\Weather\Services\Forecast;
 use Illuminate\Support\Facades\Http;
 
-class Client
+class OpenWeatherMapDriver implements \App\Weather\Contracts\DriverInterface
 {
+
     /**
      * Base URL to the Client API
      * @var string
@@ -35,11 +37,11 @@ class Client
     }
 
     /**
-     * Return the weather from the passed query
-     * @param string $q
+     * Get a weather forecast by the query passed
+     * @param mixed $q
      * @return Forecast
      */
-    public function getByQuery(string $q): Forecast
+    public function getByQuery(mixed $q): Forecast
     {
         return new Forecast(weather: (object)json_decode(
             Http::get($this->baseUrl, [

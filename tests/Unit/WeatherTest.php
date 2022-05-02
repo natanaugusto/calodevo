@@ -1,18 +1,19 @@
 <?php
 uses(classAndTraits: \Tests\TestCase::class);
-use App\Services\Weather\Client;
+
+use App\Weather\Services\Client;
 
 test(description: 'Instanciate a Weather Client Object', closure: function () {
     $baseUrl = config(key: 'weather.openweathermap.base_api')
         . config(key: 'weather.openweathermap.version')
         . '/weather';
-    $weather = new Client(
+    $weather = new Client(new \App\Weather\Drivers\OpenWeatherMapDriver(
         baseUrl: $baseUrl,
         apiKey: config(key: 'weather.openweathermap.api_key')
-    );
+    ));
     $return = $weather->getByQuery(q: 'Franco da Rocha');
     $this->assertInstanceOf(
-        expected: \App\Services\Weather\Forecast::class,
+        expected: \App\Weather\Services\Forecast::class,
         actual: $return
     );
 });
