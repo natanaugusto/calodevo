@@ -1,6 +1,4 @@
 <?php
-uses(classAndTraits: \Tests\TestCase::class);
-
 use App\Weather\Resources\Forecast;
 
 use Illuminate\Support\Facades\Http;

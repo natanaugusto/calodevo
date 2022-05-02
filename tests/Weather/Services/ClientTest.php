@@ -1,6 +1,4 @@
 <?php
-uses(classAndTraits: \Tests\TestCase::class);
-
 use App\Weather\Services\Client;
 
 test(description: 'Instanciate a Weather Client Object', closure: function () {

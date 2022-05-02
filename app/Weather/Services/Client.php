@@ -3,6 +3,7 @@
 namespace App\Weather\Services;
 
 use App\Weather\Contracts\DriverInterface;
+use App\Weather\Resources\Forecast;
 
 /**
  * @method getByQuery(mixed $q)
@@ -23,5 +24,15 @@ class Client
             return call_user_func_array(callback: [$this->driver, $name], args: $arguments);
         }
         return null;
+    }
+
+    /**
+     * Get a Weather Forecast by the city name
+     * @param string $name
+     * @return Forecast
+     */
+    public function getByCityName(string $name): Forecast
+    {
+        return $this->driver->getByQuery(q: $name);
     }
 }
