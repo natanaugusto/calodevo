@@ -2,51 +2,26 @@
 
 namespace App\Weather\Drivers;
 
-use App\Weather\Resources\Forecast;
-use Illuminate\Support\Facades\Http;
 
-class OpenWeatherMapDriver implements \App\Weather\Contracts\DriverInterface
+class OpenWeatherMapDriver extends BaseDriver
 {
-
-    /**
-     * Base URL to the Client API
-     * @var string
-     */
-    private string $baseUrl;
-    /**
-     * The API KEY for the Client API
-     * @var string
-     */
-    private string $apiKey;
-    /**
-     * Units of measurement
-     * @var string
-     */
-    private string $units;
-
-    /**
-     * @param string $baseUrl
-     * @param string $apiKey
-     * @param string $units
-     */
-    public function __construct(string $baseUrl, string $apiKey, string $units = 'metrics')
+    public function getBaseUrl(): string
     {
-        $this->baseUrl = $baseUrl;
-        $this->apiKey = $apiKey;
-        $this->units = $units;
+        return config(key: 'weather.openweathermap.base_api')
+        . config(key: 'weather.openweathermap.version')
+        . '/weather';
     }
 
-    /**
-     * Get a weather forecast by the query passed
-     * @param mixed $q
-     * @return Forecast
-     */
-    public function getByQuery(mixed $q): Forecast
+    public function getApiKey(): string
     {
-        return new Forecast(response: Http::get($this->baseUrl, [
+        return config(key: 'weather.openweathermap.api_key');
+    }
+
+    public function resolveQuery(mixed $q): array
+    {
+        return array_merge([
             'q' => $q,
-            'appid' => $this->apiKey,
-            'units' => $this->units,
-        ]));
+            'appid' => $this->getApiKey()
+        ]);
     }
 }

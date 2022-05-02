@@ -25,14 +25,4 @@ class Client
         }
         return null;
     }
-
-    /**
-     * Get a Weather Forecast by the city name
-     * @param string $name
-     * @return Forecast
-     */
-    public function getByCityName(string $name): Forecast
-    {
-        return $this->driver->getByQuery(q: $name);
-    }
 }

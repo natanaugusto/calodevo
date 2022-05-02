@@ -9,7 +9,8 @@ test(description: 'Instanciate a Weather Forecast Object', closure: function () 
         . '/weather';
 
     $http = Http::get($baseUrl);
-    $forecast = new Forecast(response: $http);
+    $driver = Mockery::mock(args: \App\Weather\Contracts\DriverInterface::class);
+    $forecast = new Forecast(response: $http, driver: $driver);
     $this->assertInstanceOf(
         expected: Forecast::class,
         actual: $forecast
