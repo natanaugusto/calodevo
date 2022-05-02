@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Http;
+
 uses(Tests\TestCase::class)->in('Feature', 'Weather');
 
 /*
@@ -39,7 +41,18 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function mockHttp(): void
 {
-    // ..
+    Http::fake(callback: function () {
+        $filename =  __DIR__
+            . DIRECTORY_SEPARATOR
+            . 'json'
+            . DIRECTORY_SEPARATOR
+            . 'weather_return.json';
+        return Http::response(
+            body: fopen(filename: $filename, mode: 'r'),
+            status: \Symfony\Component\HttpFoundation\Response::HTTP_OK
+        );
+    });
+
 }

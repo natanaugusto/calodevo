@@ -2,6 +2,7 @@
 use App\Weather\Services\Client;
 
 test(description: 'Instanciate a Weather Client Object', closure: function () {
+    mockHttp();
     $baseUrl = config(key: 'weather.openweathermap.base_api')
         . config(key: 'weather.openweathermap.version')
         . '/weather';
