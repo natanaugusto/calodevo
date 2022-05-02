@@ -23,7 +23,7 @@ test(description: 'Instanciate a Weather Forecast Object', closure: function () 
         . '/weather';
 
     $http = Http::get($baseUrl);
-    $forecast = new Forecast(resource: $http);
+    $forecast = new Forecast(response: $http);
     $this->assertInstanceOf(
         expected: Forecast::class,
         actual: $forecast

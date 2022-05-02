@@ -43,7 +43,7 @@ class OpenWeatherMapDriver implements \App\Weather\Contracts\DriverInterface
      */
     public function getByQuery(mixed $q): Forecast
     {
-        return new Forecast(resource: Http::get($this->baseUrl, [
+        return new Forecast(response: Http::get($this->baseUrl, [
             'q' => $q,
             'appid' => $this->apiKey,
             'units' => $this->units,

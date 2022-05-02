@@ -2,18 +2,20 @@
 
 namespace App\Weather\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Client\Response;
 
-
-
-class Forecast extends JsonResource
+class Forecast
 {
-    public function __construct(mixed $resource)
+    protected Response $response;
+    protected object $resource;
+
+    public function __construct(Response $response)
     {
-        parent::__construct($resource->object());
+        $this->response = $response;
+        $this->resource = $this->response->object();
     }
 
-    public function toArray(mixed $request = null): array
+    public function toArray(): array
     {
         return (array) $this->resource;
     }
