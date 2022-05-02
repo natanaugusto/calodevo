@@ -2,12 +2,9 @@
 
 namespace App\Weather\Resources;
 
-class Forecast
-{
-    protected object $weather;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-    public function __construct(object $weather)
-    {
-        $this->weather = $weather;
-    }
+class Forecast extends JsonResource
+{
+
 }
