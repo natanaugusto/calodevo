@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Weather\Services;
+namespace App\Weather\Resources;
 
 class Forecast
 {

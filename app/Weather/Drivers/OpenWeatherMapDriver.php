@@ -2,7 +2,7 @@
 
 namespace App\Weather\Drivers;
 
-use App\Weather\Services\Forecast;
+use App\Weather\Resources\Forecast;
 use Illuminate\Support\Facades\Http;
 
 class OpenWeatherMapDriver implements \App\Weather\Contracts\DriverInterface

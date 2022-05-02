@@ -13,7 +13,7 @@ test(description: 'Instanciate a Weather Client Object', closure: function () {
     ));
     $return = $weather->getByQuery(q: 'Franco da Rocha');
     $this->assertInstanceOf(
-        expected: \App\Weather\Services\Forecast::class,
+        expected: \App\Weather\Resources\Forecast::class,
         actual: $return
     );
 });

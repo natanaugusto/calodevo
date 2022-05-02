@@ -2,7 +2,7 @@
 
 namespace App\Weather\Contracts;
 
-use App\Weather\Services\Forecast;
+use App\Weather\Resources\Forecast;
 
 interface DriverInterface
 {
