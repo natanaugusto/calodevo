@@ -11,5 +11,7 @@ interface ForecastInterface
      * @param Response $response
      * @return $this
      */
-    function convert(Response $response): self;
+    public function parse(Response $response): self;
+
+    public function toWeatherQuery(): QueryInterface;
 }

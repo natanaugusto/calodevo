@@ -27,8 +27,8 @@ interface DriverInterface
 
     /**
      * Mount the querystring array to Http Request
-     * @param mixed $q
+     * @param QueryInterface $q
      * @return array
      */
-    function resolveQuery(mixed $q): array;
+    function resolveQuery(QueryInterface $q): array;
 }

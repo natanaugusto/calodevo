@@ -4,6 +4,7 @@ namespace App\Weather\Services;
 
 use App\Weather\Contracts\DriverInterface;
 use App\Weather\Contracts\ForecastInterface;
+use App\Weather\Contracts\QueryInterface;
 
 class Client
 {
@@ -16,11 +17,10 @@ class Client
         $this->forecast = $forecast;
     }
 
-
-    public function getByQuery(mixed $q): ForecastInterface
+    public function getByQuery(QueryInterface $q = null): ForecastInterface
     {
-        return $this->forecast->convert(
-            $this->driver->getFromAPI(q: $q)
+        return $this->forecast->parse(
+            $this->driver->getFromAPI(q: empty($q) ?$this->forecast->toWeatherQuery() : $q)
         );
     }
 }

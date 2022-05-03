@@ -3,6 +3,7 @@
 namespace App\Weather\Drivers;
 
 use App\Weather\Contracts\DriverInterface;
+use App\Weather\Contracts\QueryInterface;
 use Illuminate\Support\Facades\Http;
 
 class OpenWeatherMapDriver implements DriverInterface
@@ -19,19 +20,21 @@ class OpenWeatherMapDriver implements DriverInterface
         return config(key: 'weather.openweathermap.api_key');
     }
 
-    public function resolveQuery(mixed $q): array
+    public function resolveQuery(QueryInterface $q): array
     {
+        $query = $q->toArray();
         return array_merge([
-            'q' => $q,
+            'q' => $query[QueryInterface::CITY_NAME_ARGUMENT],
             'appid' => $this->getApiKey()
         ]);
     }
 
     public function getFromAPI(mixed $q): \Illuminate\Http\Client\Response
     {
+        $query = $q instanceof QueryInterface ? $this->resolveQuery($q) : $q;
         return Http::get(
             url: $this->getBaseUrl(),
-            query: $this->resolveQuery(q: $q)
+            query: $query
         );
     }
 }
