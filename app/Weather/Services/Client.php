@@ -3,26 +3,22 @@
 namespace App\Weather\Services;
 
 use App\Weather\Contracts\DriverInterface;
-use App\Weather\Resources\Forecast;
+use Illuminate\Database\Eloquent\Model;
 
-/**
- * @method getByQuery(mixed $q)
- * @see DriverInterface::getByQuery()
- */
 class Client
 {
+    private Model $forecast;
     private DriverInterface $driver;
 
-    public function __construct(DriverInterface $driver)
+    public function __construct(DriverInterface $driver, Model $forecast)
     {
         $this->driver = $driver;
+        $this->forecast = $forecast;
     }
 
-    public function __call(string $name, array $arguments): mixed
-    {
-        if (method_exists(object_or_class: $this->driver, method: $name)) {
-            return call_user_func_array(callback: [$this->driver, $name], args: $arguments);
-        }
-        return null;
+
+    public function getByQuery(mixed $q): Model {
+        $this->driver->getFromAPI(q: $q);
+        return $this->forecast;
     }
 }

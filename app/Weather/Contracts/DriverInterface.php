@@ -2,7 +2,7 @@
 
 namespace App\Weather\Contracts;
 
-use App\Weather\Resources\Forecast;
+use Illuminate\Http\Client\Response;
 
 interface DriverInterface
 {
@@ -19,11 +19,11 @@ interface DriverInterface
     function getApiKey(): string;
 
     /**
-     * Get a weather forecast by the query passed
+     * Get a weather forecast from the API by the query passed
      * @param mixed $q
-     * @return Forecast
+     * @return Response
      */
-    function getByQuery(mixed $q): Forecast;
+    function getFromAPI(mixed $q): Response;
 
     /**
      * Mount the querystring array to Http Request

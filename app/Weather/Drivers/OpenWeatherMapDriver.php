@@ -2,8 +2,10 @@
 
 namespace App\Weather\Drivers;
 
+use App\Weather\Contracts\DriverInterface;
+use Illuminate\Support\Facades\Http;
 
-class OpenWeatherMapDriver extends BaseDriver
+class OpenWeatherMapDriver implements DriverInterface
 {
     public function getBaseUrl(): string
     {
@@ -23,5 +25,13 @@ class OpenWeatherMapDriver extends BaseDriver
             'q' => $q,
             'appid' => $this->getApiKey()
         ]);
+    }
+
+    public function getFromAPI(mixed $q): \Illuminate\Http\Client\Response
+    {
+        return Http::get(
+            url: $this->getBaseUrl(),
+            query: $this->resolveQuery(q: $q)
+        );
     }
 }
