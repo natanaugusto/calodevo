@@ -3,22 +3,24 @@
 namespace App\Weather\Services;
 
 use App\Weather\Contracts\DriverInterface;
-use Illuminate\Database\Eloquent\Model;
+use App\Weather\Contracts\ForecastInterface;
 
 class Client
 {
-    private Model $forecast;
+    private ForecastInterface $forecast;
     private DriverInterface $driver;
 
-    public function __construct(DriverInterface $driver, Model $forecast)
+    public function __construct(DriverInterface $driver, ForecastInterface $forecast)
     {
         $this->driver = $driver;
         $this->forecast = $forecast;
     }
 
 
-    public function getByQuery(mixed $q): Model {
-        $this->driver->getFromAPI(q: $q);
-        return $this->forecast;
+    public function getByQuery(mixed $q): ForecastInterface
+    {
+        return $this->forecast->convert(
+            $this->driver->getFromAPI(q: $q)
+        );
     }
 }

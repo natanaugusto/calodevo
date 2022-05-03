@@ -1,14 +1,26 @@
 <?php
 
 use App\Weather\Services\Client;
+use App\Weather\Contracts\ForecastInterface;
 
-test(description: 'Instanciate a Weather Client Object', closure: function () {
+$forecast = new class implements ForecastInterface {
+    public array $response;
+
+    public function convert(\Illuminate\Http\Client\Response $response): ForecastInterface
+    {
+        $this->response = json_decode(json: $response->body(), associative: true);
+        return $this;
+    }
+};
+
+
+test(description: 'Instanciate a Weather Client Object', closure: function () use ($forecast) {
     mockHttp();
 
-    $weather = new Client(new \App\Weather\Drivers\OpenWeatherMapDriver(), forecast: new App\Models\Forecast());
+    $weather = new Client(new \App\Weather\Drivers\OpenWeatherMapDriver(), forecast: $forecast);
     $return = $weather->getByQuery(q: 'Franco da Rocha');
     $this->assertInstanceOf(
-        expected: \App\Models\Forecast::class,
+        expected: ForecastInterface::class,
         actual: $return
     );
 });
