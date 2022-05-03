@@ -1,7 +1,10 @@
 <?php
 
+use App\Weather\Contracts\DriverInterface;
+use App\Weather\Contracts\QueryInterface;
 use App\Weather\Services\Client;
 use App\Weather\Contracts\ForecastInterface;
+use Illuminate\Support\Facades\Http;
 
 $forecast = new class implements ForecastInterface {
     private string $cityName = 'Franco da Rocha';
@@ -19,11 +22,40 @@ $forecast = new class implements ForecastInterface {
     }
 };
 
+$driver = new class implements DriverInterface {
+    public function getBaseUrl(): string
+    {
+        return 'http://weaterapi';
+    }
 
-test(description: 'Instanciate a Weather Client Object', closure: function () use ($forecast) {
+    public function getApiKey(): string
+    {
+        return 'API-KEY';
+    }
+
+    public function resolveQuery(QueryInterface $q): array
+    {
+        $query = $q->toArray();
+        return array_merge([
+            'q' => $query[QueryInterface::CITY_NAME_ARGUMENT],
+            'appid' => $this->getApiKey()
+        ]);
+    }
+
+    public function getFromAPI(mixed $q): \Illuminate\Http\Client\Response
+    {
+        $query = $q instanceof QueryInterface ? $this->resolveQuery($q) : $q;
+        return Http::get(
+            url: $this->getBaseUrl(),
+            query: $query
+        );
+    }
+};
+
+test(description: 'Instanciate a Weather Client Object', closure: function () use ($driver, $forecast) {
     mockHttp();
 
-    $weather = new Client(new \App\Weather\Drivers\OpenWeatherMapDriver(), forecast: $forecast);
+    $weather = new Client(driver: $driver, forecast: $forecast);
     $return = $weather->getByQuery();
     $this->assertInstanceOf(
         expected: ForecastInterface::class,
