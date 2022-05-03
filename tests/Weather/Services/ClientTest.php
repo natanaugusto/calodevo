@@ -1,8 +1,9 @@
 <?php
 
-use App\Weather\Contracts\DriverInterface;
-use App\Weather\Contracts\QueryInterface;
 use App\Weather\Services\Client;
+use App\Weather\Facades\Weather;
+use App\Weather\Contracts\QueryInterface;
+use App\Weather\Contracts\DriverInterface;
 use App\Weather\Contracts\ForecastInterface;
 use Illuminate\Support\Facades\Http;
 
@@ -60,5 +61,13 @@ test(description: 'Instanciate a Weather Client Object', closure: function () us
     $this->assertInstanceOf(
         expected: ForecastInterface::class,
         actual: $return
+    );
+});
+
+
+test(description: 'Using Weather facade', closure: function () {
+    $this->assertInstanceOf(
+        expected: ForecastInterface::class,
+        actual: Weather::getByQuery()
     );
 });
