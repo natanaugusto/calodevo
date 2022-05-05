@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @see City::forecasts()
  * @property Forecast $lastForecast
  * @see City::lastForecast()
+ * @method static where($column, $operator = null, $value = null, $boolean = 'and')
+ * @see \Illuminate\Database\Query\Builder::where()
  */
 class City extends Model
 {
