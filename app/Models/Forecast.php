@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Client\Response;
 
 /**
- * @property mixed $city
+ * @property City $city
  * @see Forecast::city()
  */
 class Forecast extends Model implements ForecastInterface
@@ -30,7 +30,7 @@ class Forecast extends Model implements ForecastInterface
             ->setCityName(value: $city->name) : null;
     }
 
-    public function city() : BelongsTo
+    public function city(): BelongsTo
     {
         return $this->belongsTo(related: City::class);
     }
