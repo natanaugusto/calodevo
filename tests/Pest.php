@@ -48,6 +48,8 @@ function mockHttp(): void
             . DIRECTORY_SEPARATOR
             . 'json'
             . DIRECTORY_SEPARATOR
+            . 'openweatherapi'
+            . DIRECTORY_SEPARATOR
             . 'weather_return.json';
         return Http::response(
             body: fopen(filename: $filename, mode: 'r'),
