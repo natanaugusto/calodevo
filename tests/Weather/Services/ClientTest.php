@@ -53,6 +53,7 @@ $driver = new class implements DriverInterface {
     }
 };
 
+
 test(description: 'Instanciate a Weather Client Object', closure: function () use ($driver, $forecast) {
     mockHttp();
 
@@ -64,6 +65,18 @@ test(description: 'Instanciate a Weather Client Object', closure: function () us
     );
 });
 
+test(description: 'Interacting with Client and Query', closure: function () use ($driver, $forecast) {
+    mockHttp();
+    $weather = new Client(driver: $driver, forecast: $forecast);
+
+    $query = new \App\Weather\Services\Query();
+    $query->setCityName(value: 'Franco da Rocha');
+
+    $return = $weather->getByQuery(q: $query);
+    $this->assertInstanceOf(expected: ForecastInterface::class, actual: $return);
+
+
+});
 
 test(description: 'Using Weather facade', closure: function () {
     $this->assertInstanceOf(
